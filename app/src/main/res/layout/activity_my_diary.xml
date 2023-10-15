@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MyDiaryActivity">
 
     <ImageButton
         android:id="@+id/border_for_buttons"
@@ -60,19 +60,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.975" />
-
-    <ImageButton
-        android:id="@+id/addplant_button"
-        android:layout_width="85dp"
-        android:layout_height="75dp"
-        android:background="#00FFFFFF"
-        android:scaleType="fitCenter"
-        android:src="@drawable/add_plant"
-        android:contextClickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/mydiary_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.824" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

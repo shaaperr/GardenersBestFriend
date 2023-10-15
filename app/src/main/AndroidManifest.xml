@@ -18,6 +18,15 @@
         android:theme="@style/Theme.GardenersBestFriend"
         tools:targetApi="31">
         <activity
+            android:name=".AddNewPlantActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyDiaryActivity"
+            android:exported="false" />
+        <activity
             android:name=".AllPlantsActivity"
             android:exported="false" />
         <activity
