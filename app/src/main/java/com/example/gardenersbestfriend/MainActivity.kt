@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         val imageButton1:ImageButton=findViewById(R.id.home_button)
         imageButton1.setOnClickListener{
-            startActivity(Intent(this,AllPlantsActivity::class.java))
+            startActivity(Intent(this,MainActivity::class.java))
         }
 
         val imageButton2:ImageButton=findViewById(R.id.mydiary_button)
