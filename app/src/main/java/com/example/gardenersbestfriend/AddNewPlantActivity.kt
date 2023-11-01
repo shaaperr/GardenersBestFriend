@@ -3,15 +3,18 @@ package com.example.gardenersbestfriend
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import java.util.Calendar
-
-
 class AddNewPlantActivity : AppCompatActivity() {
     val daysOfWeek = arrayOf("Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays", "Sundays")
     lateinit var selectedDay: BooleanArray
@@ -122,8 +125,41 @@ class AddNewPlantActivity : AppCompatActivity() {
             }
             builder.show()
         }
+
+        val plantImagePreview: ImageButton = findViewById(R.id.plantImagePreview)
+        var plantUri: Uri? = null
+        val pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            val tag = "ImagePicker"
+            if (uri != null) {
+                plantImagePreview.setImageURI(uri)
+                plantUri = uri
+                Log.d(tag, "Selected image: $uri")
+
+            } else {
+                Log.d(tag, "No image selected")
+            }
+        }
+
+        val addPlantImage: PopupMenu = PopupMenu(this, plantImagePreview)
+        addPlantImage.inflate(R.menu.popup_add_plant_image)
+
+        plantImagePreview.setOnClickListener{
+            addPlantImage.show()
+        }
+
+        addPlantImage.setOnMenuItemClickListener { menuItem ->
+            val id = menuItem.itemId
+            if (id == R.id.useCamera) {
+                // TODO: open camera
+            }
+            else if (id == R.id.openGallery) {
+                pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+            false
+        }
     }
 }
+
 
 private fun getDayOfWeekValue(dayString: String): Int {
     return when (dayString) {
