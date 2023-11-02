@@ -11,7 +11,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         val addPlantButton:ImageButton=findViewById(R.id.addplant_button)
         addPlantButton.setOnClickListener{
             startActivity(Intent(this,AddNewPlantActivity::class.java))
