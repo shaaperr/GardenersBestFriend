@@ -23,7 +23,8 @@ class PhotoJournalDatabase(private val dbUrl: String) {
                 date DATE,
                 photo BLOB,
                 text TEXT,
-                plant_name
+                plant_name TEXT,
+                reminder_days TEXT
             )
         """
 
@@ -31,14 +32,15 @@ class PhotoJournalDatabase(private val dbUrl: String) {
         statement.execute()
     }
 
-    fun insertEntry(date: String, photo: ByteArray, text: String, plantName: String) {
-        val insertSQL = "INSERT INTO entries (date, photo, text, plant_name) VALUES (?, ?, ?)"
+    fun insertEntry(date: String, photo: ByteArray, text: String, plantName: String, reminderDays: String) {
+        val insertSQL = "INSERT INTO entries (date, photo, text, plant_name, reminder_days) VALUES (?, ?, ?, ?, ?)"
 
         val statement: PreparedStatement = connection?.prepareStatement(insertSQL) ?: return
         statement.setString(1, date)
         statement.setBytes(2, photo)
         statement.setString(3, text)
         statement.setString(4, plantName)
+        statement.setString(5, reminderDays)
         statement.execute()
     }
 
@@ -58,11 +60,12 @@ class PhotoJournalDatabase(private val dbUrl: String) {
             val date = resultSet.getString("date")
             val photo = resultSet.getBytes("photo")
             val text = resultSet.getString("text")
-            val plantName = resultSet.getString("text")
-            entries.add(Entry(id, date, photo, text, plantName))
+            val plantName = resultSet.getString("plant_name")
+            val reminderDays = resultSet.getString("reminder_days")
+            entries.add(Entry(id, date, photo, text, plantName, reminderDays))
         }
         return entries
     }
 }
 
-data class Entry(val id: Int, val date: String, val photo: ByteArray, val text: String, val plantName: String)
+data class Entry(val id: Int, val date: String, val photo: ByteArray, val text: String, val plantName: String, val reminderDays: String)
