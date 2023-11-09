@@ -15,10 +15,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import java.util.Calendar
+
 class AddNewPlantActivity : AppCompatActivity() {
     val daysOfWeek = arrayOf("Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays", "Sundays")
     lateinit var selectedDay: BooleanArray
     lateinit var textView: TextView
+
     private val selectedItems = HashSet<Int>() // Keep track of selected items
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,7 +129,8 @@ class AddNewPlantActivity : AppCompatActivity() {
         }
 
         val plantImagePreview: ImageButton = findViewById(R.id.plantImagePreview)
-        var plantUri: Uri? = null
+
+        var plantUri = Uri.EMPTY
         val pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             val tag = "ImagePicker"
             if (uri != null) {
@@ -140,7 +143,18 @@ class AddNewPlantActivity : AppCompatActivity() {
             }
         }
 
-        val addPlantImage: PopupMenu = PopupMenu(this, plantImagePreview)
+        val useCamera = registerForActivityResult(ActivityResultContracts.TakePicture()) { imageTaken ->
+            val tag = "Camera"
+            if (imageTaken) {
+                plantImagePreview.setImageURI((plantUri))
+                Log.d(tag, "Picture taken: $plantUri")
+            }
+            else {
+                Log.d(tag, "No picture taken")
+            }
+        }
+
+        val addPlantImage = PopupMenu(this, plantImagePreview)
         addPlantImage.inflate(R.menu.popup_add_plant_image)
 
         plantImagePreview.setOnClickListener{
@@ -150,7 +164,7 @@ class AddNewPlantActivity : AppCompatActivity() {
         addPlantImage.setOnMenuItemClickListener { menuItem ->
             val id = menuItem.itemId
             if (id == R.id.useCamera) {
-                // TODO: open camera
+                useCamera.launch(plantUri)
             }
             else if (id == R.id.openGallery) {
                 pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
