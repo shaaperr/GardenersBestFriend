@@ -1,5 +1,6 @@
 package com.example.gardenersbestfriend
 
+import java.io.Serializable
 import java.util.Random
 
 data class PlantModel (
@@ -7,9 +8,10 @@ data class PlantModel (
     var name: String = "",
     var date: String = "",
     var reminders: String = "",
-    var entry: String = ""
+    var entry: String = "",
+    var imagepath: String = ""
 
-){
+) : Serializable {
     companion object{
         fun getAutoId():Int{
             val random = Random()

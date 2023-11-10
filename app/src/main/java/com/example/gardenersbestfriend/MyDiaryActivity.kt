@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,13 @@ class MyDiaryActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewPlants)
         initRecyclerView()
         sqLiteHelper = SQLiteHelper(this)
-        getPlant()
+        getPlants()
+
+        adapter?.setOnclickItem {
+            Toast.makeText(this, "", Toast.LENGTH_SHORT).show()
+
+        }
+
 
         val imageButton1: ImageButton = findViewById(R.id.home_button)
         imageButton1.setOnClickListener {
@@ -37,18 +44,27 @@ class MyDiaryActivity : AppCompatActivity() {
         imageButton3.setOnClickListener {
             startActivity(Intent(this, MyHistoryActivity::class.java))
         }
+
+
+
     }
 
     private fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = PlantAdapter()
         recyclerView.adapter = adapter
+
     }
 
-    private fun getPlant() {
+    private fun getPlants() {
         val plantList = sqLiteHelper.getAllPlant()
         Log.e("Show added plant", "${plantList.size}")
         // Test to see if actually populating with a recyclerview
         adapter?.addItems(plantList)
     }
+
+
 }
+
+
+

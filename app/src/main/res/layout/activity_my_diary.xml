@@ -64,8 +64,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPlants"
-        android:layout_width="390dp"
-        android:layout_height="556dp"
+        android:layout_width="387dp"
+        android:layout_height="529dp"
         app:layout_constraintBottom_toTopOf="@+id/border_for_buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
