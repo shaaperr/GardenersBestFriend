@@ -37,19 +37,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkPermissions() {
-        var permissions: Array<String>
-        if (android.os.Build.VERSION.SDK_INT > 28) {
-            permissions = arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_MEDIA_IMAGES
-            ) // add any needed permissions
+        val permissions = arrayOf(Manifest.permission.CAMERA) // permissions for all versions go here
+        if (android.os.Build.VERSION.SDK_INT >= 33) { // add any needed permissions
+            permissions.plusElement(Manifest.permission.READ_MEDIA_IMAGES)
         }
-        else {
-            permissions = arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
+        else if (android.os.Build.VERSION.SDK_INT <= 28){ // add any needed permissions here also
+            permissions.plusElement(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            permissions.plusElement(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
         requestPermissions.launch(permissions)
 

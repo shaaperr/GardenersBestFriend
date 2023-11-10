@@ -148,20 +148,14 @@ class AddNewPlantActivity : AppCompatActivity() {
         }
 
         val useCamera = registerForActivityResult(ActivityResultContracts.TakePicture()) { imageTaken ->
-            val tag = "Camera"
-            if (plantUri != Uri.EMPTY) {
-                Log.d(tag, "Picture taken: $plantUri")
+            val TAG = "Camera"
+            if (imageTaken) {
+                Log.d(TAG, "Picture taken: $plantUri")
                 plantImagePreview.setImageURI(plantUri)
             }
             else {
-                Log.d(tag, "No picture taken")
+                Log.d(TAG, "No picture taken")
             }
-            /* if (imageTaken) {
-                Log.d(tag, "Picture taken: $plantUri")
-            }
-            else {
-                Log.d(tag, "No picture taken")
-            }*/
         }
 
         val addPlantImage = PopupMenu(this, plantImagePreview)
