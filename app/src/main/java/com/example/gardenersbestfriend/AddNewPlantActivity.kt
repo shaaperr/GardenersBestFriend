@@ -2,6 +2,7 @@ package com.example.gardenersbestfriend
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,6 +15,8 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import java.io.File
 import java.util.Calendar
 
 class AddNewPlantActivity : AppCompatActivity() {
@@ -134,6 +137,7 @@ class AddNewPlantActivity : AppCompatActivity() {
         val pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             val tag = "ImagePicker"
             if (uri != null) {
+
                 plantImagePreview.setImageURI(uri)
                 plantUri = uri
                 Log.d(tag, "Selected image: $uri")
@@ -145,13 +149,19 @@ class AddNewPlantActivity : AppCompatActivity() {
 
         val useCamera = registerForActivityResult(ActivityResultContracts.TakePicture()) { imageTaken ->
             val tag = "Camera"
-            if (imageTaken) {
-                plantImagePreview.setImageURI((plantUri))
+            if (plantUri != Uri.EMPTY) {
                 Log.d(tag, "Picture taken: $plantUri")
+                plantImagePreview.setImageURI(plantUri)
             }
             else {
                 Log.d(tag, "No picture taken")
             }
+            /* if (imageTaken) {
+                Log.d(tag, "Picture taken: $plantUri")
+            }
+            else {
+                Log.d(tag, "No picture taken")
+            }*/
         }
 
         val addPlantImage = PopupMenu(this, plantImagePreview)
@@ -164,6 +174,8 @@ class AddNewPlantActivity : AppCompatActivity() {
         addPlantImage.setOnMenuItemClickListener { menuItem ->
             val id = menuItem.itemId
             if (id == R.id.useCamera) {
+                plantUri = createImageFile(applicationContext)
+                Log.d("GetUri", "plantUri: $plantUri")
                 useCamera.launch(plantUri)
             }
             else if (id == R.id.openGallery) {
@@ -172,8 +184,21 @@ class AddNewPlantActivity : AppCompatActivity() {
             false
         }
     }
-}
 
+    private fun createImageFile(context: Context): Uri {
+        val TAG = "ImageCreation"
+        val provider = "${context.packageName}.provider"
+        val fileName = "JPEG_${System.currentTimeMillis()}.jpg"
+        val imagePath = File(context.filesDir, "plant_images")
+        Log.d(TAG, "createImageFile: ${imagePath.exists()}")
+        Log.d(TAG, "createImageFile: ${imagePath.absolutePath}")
+        if (!imagePath.mkdirs()){
+            Log.d(TAG, "createImageFile: Failed to create directory")
+        }
+        val tempFile = File(imagePath, fileName)
+        return FileProvider.getUriForFile(context, provider, tempFile)
+    }
+}
 
 private fun getDayOfWeekValue(dayString: String): Int {
     return when (dayString) {

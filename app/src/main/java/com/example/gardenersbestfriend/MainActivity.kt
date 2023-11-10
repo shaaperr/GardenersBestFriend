@@ -1,10 +1,12 @@
 package com.example.gardenersbestfriend
 
+import android.Manifest
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import android.util.Log
 import android.widget.ImageButton
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +33,32 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this,MyHistoryActivity::class.java))
         }
 
+        checkPermissions()
     }
 
+    private fun checkPermissions() {
+        var permissions: Array<String>
+        if (android.os.Build.VERSION.SDK_INT > 28) {
+            permissions = arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_MEDIA_IMAGES
+            ) // add any needed permissions
+        }
+        else {
+            permissions = arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }
+        requestPermissions.launch(permissions)
+
+    }
+
+    val requestPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+        val tag = "permissionCheck"
+        for (isGranted in results.values) {
+            Log.d(tag, "requestPermissions: permission granted = $isGranted")
+        }
+    }
 }
