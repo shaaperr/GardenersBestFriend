@@ -196,7 +196,7 @@ class AddNewPlantActivity : AppCompatActivity() {
           }
       }
 
-      val addPlantImage: PopupMenu = PopupMenu(this, plantImagePreview)
+      val addPlantImage = PopupMenu(this, plantImagePreview)
       addPlantImage.inflate(R.menu.popup_add_plant_image)
 
       plantImagePreview.setOnClickListener {

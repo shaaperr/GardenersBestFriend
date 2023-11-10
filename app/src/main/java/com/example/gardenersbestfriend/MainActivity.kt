@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkPermissions() {
-        var permissions: Array<String>
+        val permissions: Array<String>
         if (android.os.Build.VERSION.SDK_INT >= 33) {
             permissions = arrayOf(
                 Manifest.permission.CAMERA,
