@@ -2,17 +2,14 @@ package com.example.gardenersbestfriend
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -22,18 +19,11 @@ import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        private const val WRITE_EXTERNAL_STORAGE = 100
-        private const val READ_EXTERNAL_STORAGE = 101
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        checkPermission(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            READ_EXTERNAL_STORAGE)
+        checkPermissions()
 
         displayRandomEntry()
 
@@ -93,39 +83,37 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    //permission testing
-    private fun checkPermission(permission: String, requestCode: Int) {
-        if (ContextCompat.checkSelfPermission(this@MainActivity, permission) == PackageManager.PERMISSION_DENIED) {
 
-            // Requesting the permission
-            Log.d("TAG", "Requesting permission: $permission")
-            ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission), requestCode)
-        } else {
-            Log.d("TAG", "Permission already granted: $permission")
-            //Toast.makeText(this@MainActivity, "Permission already granted", Toast.LENGTH_SHORT).show()
+    private fun checkPermissions() {
+        var permissions: Array<String>
+        if (android.os.Build.VERSION.SDK_INT >= 33) {
+            permissions = arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_MEDIA_IMAGES
+            ) // add any needed permissions
         }
+        else if (android.os.Build.VERSION.SDK_INT <= 28){
+            permissions = arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }
+        else {
+            permissions = arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }
+        requestPermissions.launch(permissions)
     }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            READ_EXTERNAL_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("TAG", "Read Permission Granted")
-                    Toast.makeText(this@MainActivity, "Read Permission Granted", Toast.LENGTH_SHORT).show()
-                } else {
-                    Log.d("TAG", "Read Permission Denied")
-                    Toast.makeText(this@MainActivity, "Read Permission Denied", Toast.LENGTH_SHORT).show()
-                }
-            }
-            WRITE_EXTERNAL_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("TAG", "Write Permission Granted")
-                    Toast.makeText(this@MainActivity, "Write Permission Granted", Toast.LENGTH_SHORT).show()
-                } else {
-                    Log.d("TAG", "Write Permission Denied")
-                    Toast.makeText(this@MainActivity, "Write Permission Denied", Toast.LENGTH_SHORT).show()
-                }
-            }
+
+
+    private val requestPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+        results ->
+        val TAG = "PermissionCheck"
+        for (isGranted in results.values) {
+            Log.d(TAG, "Permission granted: $isGranted")
         }
     }
 }

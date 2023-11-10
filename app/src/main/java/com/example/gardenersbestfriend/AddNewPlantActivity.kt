@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -33,7 +34,7 @@ class AddNewPlantActivity : AppCompatActivity() {
     private lateinit var date: EditText
     private lateinit var entry: EditText
     private lateinit var sqLiteHelper: SQLiteHelper
-    private var plantUri: Uri? = null
+    private var plantUri = Uri.EMPTY
 
 
     //reminder stuff
@@ -167,20 +168,16 @@ class AddNewPlantActivity : AppCompatActivity() {
           builder.show()
       }
 
-
-
-
         val plantImagePreview: ImageButton = findViewById(R.id.plantImagePreview)
-       // var plantUri: Uri? = null moved to top so addPlant function can use it
-      val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-          val tag = "ImagePicker"
-          if (uri != null) {
-              plantImagePreview.setImageURI(uri)
-              plantUri = uri
-              Log.d(tag, "Selected image: $uri")
 
-          } else {
-              Log.d(tag, "No image selected")
+      val useCamera = registerForActivityResult(ActivityResultContracts.TakePicture()) { imageTaken ->
+          val TAG = "Camera"
+          if (imageTaken) {
+              plantImagePreview.setImageURI(plantUri)
+              Log.d(TAG, "Picture taken: $plantUri")
+          }
+          else {
+              Log.d(TAG, "No picture taken")
           }
       }
 
@@ -206,10 +203,30 @@ class AddNewPlantActivity : AppCompatActivity() {
           addPlantImage.show()
       }
 
+      /*val createImageUri = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+          val TAG = "ImageCreation"
+
+          if (result.resultCode == Activity.RESULT_OK) {
+              val data: Intent? = result.data
+              val uri: Uri? = data?.data
+              if (uri != null) {
+                  plantUri = uri
+                  useCamera.launch(plantUri)
+                  Log.d(TAG, "File created: $plantUri")
+              }
+              else {
+                  Log.d(TAG, "No file created")
+              }
+          }
+      }*/
+
       addPlantImage.setOnMenuItemClickListener { menuItem ->
           val id = menuItem.itemId
           if (id == R.id.useCamera) {
-              // TODO: open camera
+              plantUri = createImageFile()
+              Log.d("GetUri", "plantUri: $plantUri")
+              useCamera.launch(plantUri)
+
           } else if (id == R.id.openGallery) {          //HAD TO MODIFY FOR DATABASE, Permissions were failing for some reason, gets pics from documents
               val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
               intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -221,15 +238,11 @@ class AddNewPlantActivity : AppCompatActivity() {
 
   }
 
-
-
     private fun getPlant() {
         val plantList = sqLiteHelper.getAllPlant()
         Log.e("Show added plant", "${plantList.size}")
 
     }
-
-
 
     private fun copyImageToInternalStorage(context: Context, uri: Uri?): String {
         // Create a folder in the app's internal storage
@@ -262,7 +275,6 @@ class AddNewPlantActivity : AppCompatActivity() {
 
         return ""
     }
-
 
     private fun addPlant() {
         val name = newPlantName.text.toString()
@@ -306,6 +318,21 @@ class AddNewPlantActivity : AppCompatActivity() {
         date = findViewById(R.id.date)
         entry = findViewById(R.id.entry)
 
+    }
+
+    private fun createImageFile(): Uri {
+        val context = applicationContext
+        val TAG = "ImageCreation"
+        val provider = "${context.packageName}.provider"
+        val fileName = "JPEG_${System.currentTimeMillis()}"
+        val imagePath = File(context.filesDir, "plant_images")
+        Log.d(TAG, "createImageFile: ${imagePath.exists()}")
+        Log.d(TAG, "createImageFile: ${imagePath.absolutePath}")
+        if (!imagePath.mkdirs()){
+            Log.d(TAG, "createImageFile: Failed to create directory")
+        }
+        val tempFile = File.createTempFile(fileName, ".jpg", imagePath)
+        return FileProvider.getUriForFile(context, provider, tempFile)
     }
 }
 
