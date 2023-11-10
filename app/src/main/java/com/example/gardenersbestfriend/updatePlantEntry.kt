@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -40,7 +41,7 @@ class updatePlantEntry : AppCompatActivity() {
     private lateinit var date: EditText
     private lateinit var entry: EditText
     private lateinit var sqLiteHelper: SQLiteHelper
-    private var plantUri: Uri? = null
+    private var plantUri: Uri = Uri.EMPTY
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -207,18 +208,6 @@ class updatePlantEntry : AppCompatActivity() {
         }
 
         val plantImagePreview: ImageButton = findViewById(R.id.plantImagePreview)
-        // var plantUri: Uri? = null moved to top so addPlant function can use it
-        val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            val tag = "ImagePicker"
-            if (uri != null) {
-                plantImagePreview.setImageURI(uri)
-                plantUri = uri
-                Log.d(tag, "Selected image: $uri")
-
-            } else {
-                Log.d(tag, "No image selected")
-            }
-        }
 
         val pickDocument = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -235,7 +224,18 @@ class updatePlantEntry : AppCompatActivity() {
             }
         }
 
-        val addPlantImage: PopupMenu = PopupMenu(this, plantImagePreview)
+        val useCamera = registerForActivityResult(ActivityResultContracts.TakePicture()) { imageTaken ->
+            val TAG = "Camera"
+            if (imageTaken) {
+                plantImagePreview.setImageURI(plantUri)
+                Log.d(TAG, "Picture taken: $plantUri")
+            }
+            else {
+                Log.d(TAG, "No picture taken")
+            }
+        }
+
+        val addPlantImage = PopupMenu(this, plantImagePreview)
         addPlantImage.inflate(R.menu.popup_add_plant_image)
 
         plantImagePreview.setOnClickListener {
@@ -245,7 +245,9 @@ class updatePlantEntry : AppCompatActivity() {
         addPlantImage.setOnMenuItemClickListener { menuItem ->
             val id = menuItem.itemId
             if (id == R.id.useCamera) {
-                // TODO: open camera
+                plantUri = createImageFile()
+                Log.d("GetUri", "plantUri: $plantUri")
+                useCamera.launch(plantUri)
             } else if (id == R.id.openGallery) {          //HAD TO MODIFY FOR DATABASE
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                 intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -340,6 +342,21 @@ class updatePlantEntry : AppCompatActivity() {
         date = findViewById(R.id.date)
         entry = findViewById(R.id.entry)
 
+    }
+
+    private fun createImageFile(): Uri {
+        val context = applicationContext
+        val TAG = "ImageCreation"
+        val provider = "${context.packageName}.provider"
+        val fileName = "JPEG_${System.currentTimeMillis()}"
+        val imagePath = File(context.filesDir, "plant_images")
+        Log.d(TAG, "createImageFile: ${imagePath.exists()}")
+        Log.d(TAG, "createImageFile: ${imagePath.absolutePath}")
+        if (!imagePath.mkdirs()){
+            Log.d(TAG, "createImageFile: Failed to create directory")
+        }
+        val tempFile = File.createTempFile(fileName, ".jpg", imagePath)
+        return FileProvider.getUriForFile(context, provider, tempFile)
     }
 }
 

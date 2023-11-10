@@ -203,23 +203,6 @@ class AddNewPlantActivity : AppCompatActivity() {
           addPlantImage.show()
       }
 
-      /*val createImageUri = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-          val TAG = "ImageCreation"
-
-          if (result.resultCode == Activity.RESULT_OK) {
-              val data: Intent? = result.data
-              val uri: Uri? = data?.data
-              if (uri != null) {
-                  plantUri = uri
-                  useCamera.launch(plantUri)
-                  Log.d(TAG, "File created: $plantUri")
-              }
-              else {
-                  Log.d(TAG, "No file created")
-              }
-          }
-      }*/
-
       addPlantImage.setOnMenuItemClickListener { menuItem ->
           val id = menuItem.itemId
           if (id == R.id.useCamera) {
@@ -237,12 +220,6 @@ class AddNewPlantActivity : AppCompatActivity() {
       }
 
   }
-
-    private fun getPlant() {
-        val plantList = sqLiteHelper.getAllPlant()
-        Log.e("Show added plant", "${plantList.size}")
-
-    }
 
     private fun copyImageToInternalStorage(context: Context, uri: Uri?): String {
         // Create a folder in the app's internal storage
