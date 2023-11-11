@@ -18,6 +18,9 @@
         android:textColor="@color/black"
         android:textSize="80sp"
         android:textStyle="bold"
+        app:autoSizeMaxTextSize="80sp"
+        app:autoSizeMinTextSize="34sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -28,10 +31,9 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="360dp"
-        android:layout_height="383dp"
-        android:layout_marginTop="124dp"
-        app:cardCornerRadius="500dp"
+        android:layout_width="260dp"
+        android:layout_height="283dp"
+        android:layout_marginTop="170dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -45,7 +47,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.029"
