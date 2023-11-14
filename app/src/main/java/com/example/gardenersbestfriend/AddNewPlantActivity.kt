@@ -83,8 +83,8 @@ class AddNewPlantActivity : AppCompatActivity() {
               today.add(Calendar.DAY_OF_YEAR, daysUntilSelectedDay)
               val calendar = Calendar.getInstance()
               calendar.timeInMillis = today.timeInMillis
-              calendar.set(Calendar.HOUR_OF_DAY, 20) //Time alarm will go off for each upcoming day
-              calendar.set(Calendar.MINUTE, 34)
+              calendar.set(Calendar.HOUR_OF_DAY, 21) //Time alarm will go off for each upcoming day
+              calendar.set(Calendar.MINUTE, 53)
               calendar.set(Calendar.SECOND, 0)
 
               // Check if the time is in the past on the same day, add 7 days if it is
@@ -122,7 +122,7 @@ class AddNewPlantActivity : AppCompatActivity() {
               alarmManager.cancel(pendingIntent)
               Log.d("AlarmCancelling", "Canceled alarm for ${daysOfWeek[dayOfWeek]}")
           }
-
+          startActivity(Intent(this, MainActivity::class.java))
       }
 
       //Drop down menu, populates textview

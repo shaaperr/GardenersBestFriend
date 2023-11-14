@@ -56,7 +56,7 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
     }
     fun getAllPlant(): ArrayList<PlantModel>{
         val stdList: ArrayList<PlantModel> = ArrayList()
-        val selectQuery = "SELECT * FROM $TBL_PLANT"
+        val selectQuery = " SELECT DISTINCT $NAME, MAX($ID) AS $ID, MAX($REMINDERS) AS $REMINDERS, MAX($DATE) AS $DATE, MAX($ENTRY) AS $ENTRY, MAX($IMAGE_PATH) AS $IMAGE_PATH FROM $TBL_PLANT GROUP BY $NAME"
         val db = this.readableDatabase
         val cursor: Cursor?
 
@@ -89,6 +89,34 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
 
         return stdList
     }
+
+
+
+
+
+    fun getEntriesForPlantName(name: String): List<DateEntryModel> {
+        val entries = mutableListOf<DateEntryModel>()
+        val selectQuery = "SELECT $DATE, $ENTRY FROM $TBL_PLANT WHERE $NAME = ?"
+        val cursor = readableDatabase.rawQuery(selectQuery, arrayOf(name))
+
+        try {
+            while (cursor.moveToNext()) {
+                val date = cursor.getString(cursor.getColumnIndexOrThrow(DATE))
+                val entry = cursor.getString(cursor.getColumnIndexOrThrow(ENTRY))
+
+                // Create a new DateEntryModel with only date and entry
+                val entryAndDate = DateEntryModel(date = date, entry = entry)
+                entries.add(entryAndDate)
+
+                Log.d("SQLiteHelper", "Entry for plant $name: Date=$date, Entry=$entry")
+            }
+        } finally {
+            cursor.close()
+        }
+
+        return entries
+    }
+
 
     fun getOneById(id: Int): PlantModel? {
         val db = this.readableDatabase
@@ -127,21 +155,25 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
     }
 
 
-    fun getEntriesForPlantId(id: Int): List<PlantModel> {
-        val entries = mutableListOf<PlantModel>()
+
+
+
+    fun getEntriesForPlantId(plantId: Int): List<DateEntryModel> {
+        val entries = mutableListOf<DateEntryModel>()
         val selectQuery = "SELECT $DATE, $ENTRY FROM $TBL_PLANT WHERE $ID = ?"
-        val cursor = readableDatabase.rawQuery(selectQuery, arrayOf(id.toString()))
+        val cursor = readableDatabase.rawQuery(selectQuery, arrayOf(plantId.toString()))
 
         try {
-            if (cursor.moveToFirst()) {
-                do {
-                    val date = cursor.getString(cursor.getColumnIndexOrThrow(DATE))
-                    val entry = cursor.getString(cursor.getColumnIndexOrThrow(ENTRY))
+            while (cursor.moveToNext()) {
+                val date = cursor.getString(cursor.getColumnIndexOrThrow(DATE))
+                val entry = cursor.getString(cursor.getColumnIndexOrThrow(ENTRY))
 
-                    // Create a new PlantModel with only date and entry
-                    val plant = PlantModel(id = id, date = date, entry = entry)
-                    entries.add(plant)
-                } while (cursor.moveToNext())
+                // Create a new DateEntryModel with only date and entry
+                val entryAndDate = DateEntryModel(date = date, entry = entry)
+                entries.add(entryAndDate)
+
+                Log.d("SQLiteHelper", "Entry for plant $plantId: Date=$date, Entry=$entry")
+
             }
         } finally {
             cursor.close()
@@ -149,9 +181,5 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
 
         return entries
     }
-
-
-
-
 
 }

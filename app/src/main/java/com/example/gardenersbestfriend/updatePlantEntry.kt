@@ -54,6 +54,16 @@ class updatePlantEntry : AppCompatActivity() {
         val imagePath = intent.getStringExtra("plant_image_path")
         val reminders = intent.getStringExtra("plant_reminders") //Backwards for some reason date = reminders and reminders = date
 
+        if (reminders != null && reminders.isNotEmpty()) {
+            val selectedDays = reminders.split(", ")
+            for (dayOfWeek in selectedDays) {
+                val index = daysOfWeek.indexOf(dayOfWeek)
+                if (index != -1) {
+                    selectedItems.add(index)
+                }
+            }
+        }
+
         Log.d("IntentData", "Plant Name: $plantName")
         Log.d("IntentData", "Image Path: $imagePath")
         Log.d("IntentData", "Date: $date")
@@ -92,11 +102,13 @@ class updatePlantEntry : AppCompatActivity() {
         notificationButton.setOnClickListener {
             val plantId = intent.getIntExtra("plant_id", -1)
             if (plantId != -1) {
-                updatePlant(plantId)
+                if (plantName != null) {
+                    updatePlant(plantName)
+                }
             } else {
                 Toast.makeText(this, "Invalid plant ID", Toast.LENGTH_SHORT).show()
             }
-            updatePlant(plantId)
+
             val intent = Intent(this, Reminders::class.java)
 
             //CUSTOM NOTIFS
@@ -161,7 +173,7 @@ class updatePlantEntry : AppCompatActivity() {
                 alarmManager.cancel(pendingIntent)
                 Log.d("AlarmCancelling", "Canceled alarm for ${daysOfWeek[dayOfWeek]}")
             }
-
+            finish()
         }
 
         //Drop down menu, populates textview
@@ -257,6 +269,8 @@ class updatePlantEntry : AppCompatActivity() {
             false
         }
 
+
+
     }
 
     private fun copyImageToInternalStorage(context: Context, uri: Uri?): String {
@@ -290,25 +304,20 @@ class updatePlantEntry : AppCompatActivity() {
 
         return ""
     }
-    private fun updatePlant(plantId: Int) {
-        val name = newPlantName.text.toString()
+    private fun updatePlant(plantName: String) {
         val date = date.text.toString()
         val entry = entry.text.toString()
         val reminders = waterScheduleText.text.toString()
 
-        if (name.isEmpty() || date.isEmpty() || entry.isEmpty()) {
+        if (plantName.isEmpty() || date.isEmpty() || entry.isEmpty()) {
             Toast.makeText(this, "Please fill out the required fields", Toast.LENGTH_SHORT).show()
         } else {
-            // Retrieve the existing plant from the database
-            val existingPlant = sqLiteHelper.getOneById(plantId)
+            // Create a new plant model with the user input
+            val newPlant = PlantModel(name = plantName, date = date, entry = entry, reminders = reminders)
 
-            if (existingPlant != null) {
-                // Update the relevant fields based on user input
-                existingPlant.date = date
-                existingPlant.entry = entry
-                existingPlant.reminders = reminders
-
-                // Optionally, copy a new image to internal storage and update the image path
+            // Check if the user selected a new image
+            if (plantUri != Uri.EMPTY) {
+                // Copy the new image to internal storage and update the image path
                 val imagePath = copyImageToInternalStorage(this, plantUri)
                 Log.d("ImagePath", "Image path: $imagePath")
 
@@ -316,24 +325,31 @@ class updatePlantEntry : AppCompatActivity() {
                 val file = File(imagePath)
                 if (file.exists()) {
                     Log.d("FileExists", "Image file exists at path: $imagePath")
-                    existingPlant.imagepath = imagePath
+                    newPlant.imagepath = imagePath
                 } else {
                     Log.e("FileExists", "Image file not found at path: $imagePath")
                 }
-
-                // Update the existing plant in the database
-                val status = sqLiteHelper.updatePlant(existingPlant)
-
-                if (status > -1) {
-                    Toast.makeText(this, "Plant Updated!", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show()
-                }
             } else {
-                Toast.makeText(this, "Plant not found", Toast.LENGTH_SHORT).show()
+                // User didn't select a new image, retain the existing image path if available
+                val existingPlantId = intent.getIntExtra("plant_id", -1)
+                if (existingPlantId != -1) {
+                    val existingPlant = sqLiteHelper.getOneById(existingPlantId)
+                    newPlant.imagepath = existingPlant?.imagepath ?: ""
+                }
+            }
+
+            // Insert the new plant into the database
+            val status = sqLiteHelper.insertPlant(newPlant)
+
+            if (status != -1L) {
+
+                Toast.makeText(this, "Plant Updated!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
 
 
     private fun initView() {

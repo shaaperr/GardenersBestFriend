@@ -22,7 +22,7 @@ class MyHistoryActivity : AppCompatActivity() {
 
         val imageButton3:ImageButton=findViewById(R.id.history_button)
         imageButton3.setOnClickListener{
-            startActivity(Intent(this,MyDiaryActivity::class.java))
+            startActivity(Intent(this,MyHistoryActivity::class.java))
         }
 
 
