@@ -123,10 +123,42 @@ class SinglePlantActivity : AppCompatActivity() {
         super.onResume()
 
         plant?.let { nonNullPlant ->
-            getEntries(nonNullPlant.name)
+            val plantId = intent.getIntExtra("plant_id", -1)
+
+            if (plantId != -1) {
+                plant = sqLiteHelper.getOneById(plantId)
+
+                plant?.let { nonNullPlant ->
+                    val nameTextView = findViewById<TextView>(R.id.plantName)
+                    val remindersTextView = findViewById<TextView>(R.id.reminders)
+                    val imageView = findViewById<ImageView>(R.id.imageView)
+
+                    nameTextView.text = nonNullPlant.name
+                    remindersTextView.text = nonNullPlant.date
+
+                    if (!nonNullPlant.imagepath.isNullOrEmpty()) {
+                        try {
+                            val file = File(nonNullPlant.imagepath)
+                            if (file.exists()) {
+                                val inputStream = FileInputStream(file)
+                                val bitmap = BitmapFactory.decodeStream(inputStream)
+                                imageView.setImageBitmap(bitmap)
+                                inputStream.close()
+                            } else {
+                                imageView.setImageResource(R.drawable.add_plant) // DefaultImg
+                            }
+                        } catch (e: FileNotFoundException) {
+                            e.printStackTrace()
+                            imageView.setImageResource(R.drawable.add_plant) // file is not found
+                        }
+                    } else {
+                        imageView.setImageResource(R.drawable.add_plant) // there is no image path
+                    }
+                    getEntries(nonNullPlant.name)
+                }
+            }
         }
     }
-
 
     private fun initRecyclerView() {
         dateEntryRecyclerView.layoutManager = LinearLayoutManager(this)

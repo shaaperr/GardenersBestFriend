@@ -59,6 +59,12 @@ class MyDiaryActivity : AppCompatActivity() {
     private fun getPlants() {
         val plantList = sqLiteHelper.getAllPlant()
         Log.e("Show added plant", "${plantList.size}")
+
+        for (plant in plantList) {
+            Log.d("addPlantReminders", "Plant Id: ${plant.id}, Plant Name: ${plant.name}, Reminders: ${plant.reminders}")
+        }
+
+
         // Test to see if actually populating with a recyclerview
         adapter?.addItems(plantList)
     }

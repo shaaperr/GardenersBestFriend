@@ -25,8 +25,8 @@
 
     <TextView
         android:id="@+id/newPlantName"
-        android:layout_width="347dp"
-        android:layout_height="62dp"
+        android:layout_width="350dp"
+        android:layout_height="39dp"
         android:ems="10"
         android:hint="Enter Plant Name"
         android:inputType="text"
@@ -59,10 +59,10 @@
         android:background="@drawable/rounded_square_for_entry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.412"
+        app:layout_constraintHorizontal_bias="0.425"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/waterScheduleText"
-        app:layout_constraintVertical_bias="0.798">
+        app:layout_constraintVertical_bias="0.729">
 
 
         <EditText
@@ -100,7 +100,7 @@
         app:layout_constraintHorizontal_bias="0.103"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newPlantName"
-        app:layout_constraintVertical_bias="0.909" />
+        app:layout_constraintVertical_bias="0.767" />
 
     <ImageButton
         android:id="@+id/plantImagePreview"

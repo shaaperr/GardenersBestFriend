@@ -56,7 +56,8 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
     }
     fun getAllPlant(): ArrayList<PlantModel>{
         val stdList: ArrayList<PlantModel> = ArrayList()
-        val selectQuery = " SELECT DISTINCT $NAME, MAX($ID) AS $ID, MAX($REMINDERS) AS $REMINDERS, MAX($DATE) AS $DATE, MAX($ENTRY) AS $ENTRY, MAX($IMAGE_PATH) AS $IMAGE_PATH FROM $TBL_PLANT GROUP BY $NAME"
+        val selectQuery ="SELECT $ID, $NAME, $REMINDERS, $DATE, $ENTRY, $IMAGE_PATH FROM $TBL_PLANT WHERE ($NAME, $ID) IN (SELECT $NAME, MAX($ID) AS $ID FROM $TBL_PLANT GROUP BY $NAME)"
+
         val db = this.readableDatabase
         val cursor: Cursor?
 
@@ -86,6 +87,7 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
                 stdList.add(std)
             }while(cursor.moveToNext())
         }
+        stdList.reverse()
 
         return stdList
     }
@@ -139,6 +141,8 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
         return plant
     }
 
+/*
+
     fun updatePlant(plant: PlantModel): Int {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -149,11 +153,63 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
         contentValues.put(IMAGE_PATH, plant.imagepath)
 
         val success = db.update(TBL_PLANT, contentValues, "$ID=?", arrayOf(plant.id.toString()))
-        db.close()
+      //  db.close()
 
         return success
     }
 
+*/
+fun updatePlantRemindersAndName(plant: PlantModel): Int {
+    val db = this.writableDatabase
+    val contentValues = ContentValues()
+    contentValues.put(NAME, plant.name)
+    contentValues.put(REMINDERS, plant.reminders)
+
+    val success = db.update(TBL_PLANT, contentValues, "$ID=?", arrayOf(plant.id.toString()))
+
+    return success
+}
+
+    fun addOrUpdatePlant(plant: PlantModel): Long {
+        val db = this.writableDatabase
+
+        // Check if a plant with the same name already exists
+        val existingPlants = getAllPlant().filter { it.name == plant.name }
+
+        if (existingPlants.isNotEmpty()) {
+            // Use the values from the first existing plant with the same name
+            val existingPlant = existingPlants[0]
+            if (plant.imagepath.isNullOrBlank()) {
+                plant.imagepath = existingPlant.imagepath
+            }
+            if (plant.reminders.isNullOrBlank()) {
+                plant.reminders = existingPlant.reminders
+            }
+
+            // Update existing plants with the new imagepath and reminders
+            for (existingPlant in existingPlants) {
+                existingPlant.imagepath = plant.imagepath
+                existingPlant.reminders = plant.reminders
+                updatePlantRemindersAndName(existingPlant)
+                Log.d("addOrUpdatePlant", "Updated plant: ID=${existingPlant.id}, Name=${existingPlant.name}, Reminders=${existingPlant.reminders}, Imagepath=${existingPlant.imagepath}")
+
+            }
+        }
+
+        // Insert the new plant
+        val contentValues = ContentValues()
+        contentValues.put(NAME, plant.name)
+        contentValues.put(REMINDERS, plant.reminders)
+        contentValues.put(DATE, plant.date)
+        contentValues.put(ENTRY, plant.entry)
+        contentValues.put(IMAGE_PATH, plant.imagepath)
+
+        val success = db.insert(TBL_PLANT, null, contentValues)
+        db.close()
+        Log.d("addOrUpdatePlant", "Inserted new plant: id=${plant.id}, Name=${plant.name}, Reminders=${plant.reminders}, Imagepath=${plant.imagepath}")
+
+        return success
+    }
 
 
 
@@ -181,5 +237,4 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
 
         return entries
     }
-
 }

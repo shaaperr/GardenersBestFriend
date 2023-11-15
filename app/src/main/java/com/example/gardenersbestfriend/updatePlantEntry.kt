@@ -114,7 +114,7 @@ class updatePlantEntry : AppCompatActivity() {
             //CUSTOM NOTIFS
             val name = newPlantName.text.toString()
 
-            intent.putExtra(messageExtra, name) // 'name' is the name of the plant
+           // intent.putExtra(messageExtra, name) // 'name' is the name of the plant
 
             val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
             val now = Calendar.getInstance()
@@ -173,6 +173,7 @@ class updatePlantEntry : AppCompatActivity() {
                 alarmManager.cancel(pendingIntent)
                 Log.d("AlarmCancelling", "Canceled alarm for ${daysOfWeek[dayOfWeek]}")
             }
+
             finish()
         }
 
@@ -312,6 +313,19 @@ class updatePlantEntry : AppCompatActivity() {
         if (plantName.isEmpty() || date.isEmpty() || entry.isEmpty()) {
             Toast.makeText(this, "Please fill out the required fields", Toast.LENGTH_SHORT).show()
         } else {
+            // Check if the user selected a new image
+            if (plantUri != Uri.EMPTY) {
+                // Copy the new image to internal storage
+                val imagePath = copyImageToInternalStorage(this, plantUri)
+
+                // Check if the file exists at the specified path
+                val file = File(imagePath)
+                if (!file.exists()) {
+                    Log.e("FileExists", "Image file not found at path: $imagePath")
+                    return
+                }
+            }
+
             // Create a new plant model with the user input
             val newPlant = PlantModel(name = plantName, date = date, entry = entry, reminders = reminders)
 
@@ -319,36 +333,20 @@ class updatePlantEntry : AppCompatActivity() {
             if (plantUri != Uri.EMPTY) {
                 // Copy the new image to internal storage and update the image path
                 val imagePath = copyImageToInternalStorage(this, plantUri)
-                Log.d("ImagePath", "Image path: $imagePath")
-
-                // Check if the file exists at the specified path
-                val file = File(imagePath)
-                if (file.exists()) {
-                    Log.d("FileExists", "Image file exists at path: $imagePath")
-                    newPlant.imagepath = imagePath
-                } else {
-                    Log.e("FileExists", "Image file not found at path: $imagePath")
-                }
-            } else {
-                // User didn't select a new image, retain the existing image path if available
-                val existingPlantId = intent.getIntExtra("plant_id", -1)
-                if (existingPlantId != -1) {
-                    val existingPlant = sqLiteHelper.getOneById(existingPlantId)
-                    newPlant.imagepath = existingPlant?.imagepath ?: ""
-                }
+                newPlant.imagepath = imagePath
             }
 
-            // Insert the new plant into the database
-            val status = sqLiteHelper.insertPlant(newPlant)
+            // Insert or update the plant in the database
+            val status = sqLiteHelper.addOrUpdatePlant(newPlant)
 
             if (status != -1L) {
-
                 Toast.makeText(this, "Plant Updated!", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
 
 
 
