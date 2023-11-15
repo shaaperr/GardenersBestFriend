@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.gardenersbestfriend"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.gardenersbestfriend"
@@ -44,6 +44,10 @@ android {
 }
 
 dependencies {
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+
     implementation ("androidx.databinding:databinding-runtime:8.1.2")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
