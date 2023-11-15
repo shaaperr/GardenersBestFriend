@@ -161,7 +161,7 @@ class SinglePlantActivity : AppCompatActivity() {
                     // Display the fetched data in the TextView
                     recwaterings.text = "Watering Recommendation: $watering"
                     recsunlights.text = "Sunlight Recommendation: $sunlight"
-                    cycles.text = "Plant Cycle: $cycle"
+                    cycles.text = "Life Span: $cycle"
 
                     // Do something with the data
                 } else {
