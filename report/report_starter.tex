@@ -57,6 +57,7 @@
 \usepackage{color}
 \usepackage{booktabs}
 \usepackage{textcomp}
+\usepackage{float}
 
 
 % Some optional stuff you might like/need.
@@ -64,6 +65,7 @@
 % \usepackage[all]{hypcap}    % Fixes bug in hyperref caption linking
 \usepackage{ccicons}          % Cite your images correctly!
 % \usepackage[utf8]{inputenc} % for a UTF8 editor only
+\usepackage{biblatex} % Imports bibliography stuff
 
 % If you want to use todo notes, marginpars etc. during creation of
 % your draft document, you have to enable the "chi_draft" option for
@@ -129,6 +131,9 @@
 % create a shortcut to typeset table headings
 % \newcommand\tabhead[1]{\small\textbf{#1}}
 
+\addbibresource{bibliography.bib}
+%%\bibliography{bibliography}
+
 % End of preamble. Here it comes the document.
 \begin{document}
 
@@ -157,7 +162,7 @@
 \maketitle
 
 \begin{abstract}
-Gardener's Best Friend is an android only mobile app for people who want to maintain a journal tracking the well-being of their plants. Within this digital journal, gardeners can meticulously record plant-related information, including health status, watering schedules, and sunlight preferences. The primary goal of this app is to help users maintain their plants' schedule, strengthen their connection with their gardens, and enhance their gardening knowledge by capturing progress photos and documenting their plant journey in a personal journal. Gardener's Best Friend aims to enhance the interaction that gardeners have with their plants, providing users with tools to improve the overall wellness of their gardens.
+Gardener's Best Friend is a mobile android app for people who want to maintain a journal tracking the well-being of their plants. Within this digital journal, gardeners can meticulously record plant-related information, including health status, watering schedules, and sunlight preferences. The primary goal of this app is to help users maintain their plants' schedule, strengthen their connection with their gardens, and enhance their gardening knowledge by capturing progress photos and documenting their plant journey in a personal journal. Gardener's Best Friend aims to enhance the interaction that gardeners have with their plants, providing users with tools to improve the overall wellness of their gardens.
 
 The app offers further information about each of the user's plants, such as its known preferences regarding sunlight exposure retrieved from a comprehensive database. The database should give the user some insight into their plants' specific needs, ensuring that users can optimize their gardens' care routine. The digital journal even employs a notification system, reminding the user when they need to water their plants, based on the user provided watering schedule. In addition to these features, the app utilizes user location and weather conditions to determine if watering is necessary on a particular day. Overall, Gardener's Best Friend intends to cater to the average novice and expert gardeners alike, looking to keep records of their plants while offering guidance on how to take care of them.
 
@@ -219,7 +224,7 @@ In our relentless pursuit of a dynamic and enriched user experience, the integra
 
 To orchestrate seamless collaboration and foster an agile development process, GitHub takes center stage as our version control and collaboration platform. GitHub's robust suite of tools encompasses version control, issue tracking, and code review features, fostering a collaborative and transparent environment within our development team. This strategic choice not only underscores our commitment to delivering a product but also emphasizes our dedication to continuous improvement and innovation in the realm of plant care applications.
 
-In essence, our extensive technological stack, comprising Android Studio, Kotlin, SQLite, the Perenual API, and GitHub, unfolds as a meticulously selected array of tools. This strategic amalgamation, enriched with robust features, not only empowers our development team but also ensures that our end-users embark on a technologically advanced, seamless, and gratifying plant care journey. In setting new standards for mobile applications catering to plant enthusiasts, we aspire to redefine the landscape with an application that transcends expectations, offering a harmonious blend of functionality and innovation.
+In essence, our extensive technological stack, comprising Android Studio, Kotlin, SQLite, the Perenual API, and GitHub, unfolds as a meticulously selected array of tools. This strategic amalgamation, enriched with robust features, not only empowers our development team but also ensures that our end-users embark on a technologically advanced, seamless, and gratifying plant care journey. In setting new standards for mobile applications catering to plant enthusiasts, we aspire to redefine the landscape with an application that transcends expectations, offering a harmonious blend of functionality and innovation. \newline \newline \newline \newline \newline  \newline 
 
 %\LaTeX\ sometimes will create overfull lines that extend into columns.
 %To attempt to combat this, the \texttt{.cls} file has a command,
@@ -228,14 +233,38 @@ In essence, our extensive technological stack, comprising Android Studio, Kotlin
 %this, and info on how to control it more finely, check out
 %{\url{http://www.economics.utoronto.ca/osborne/latex/PMAKEUP.HTM}}.
 
+
 \section{Mockups}
-\includegraphics[width=2.5cm, height=4cm]{OldMockup}
-\includegraphics[width=2.5cm, height=4cm]{Load Screen}
-\includegraphics[width=2.5cm, height=4cm]{HomePlantAdded}
-\includegraphics[width=2.5cm, height=4cm]{NewPlantOrEditExisting}
-\includegraphics[width=2.5cm, height=4cm]{AllPlants}
-\includegraphics[width=2.5cm, height=4cm]{PlantClicked}
-\includegraphics[width=2.5cm, height=4cm]{PlantHistory}
+In the beginning stages of developing Gardener's Best Friend, we started the design process with the creation of mockups. These mockups served as a starting point for our user interface.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=2.5cm, height=4cm]{OldMockup}
+	\\\emph{Figure 1.} Initial mockup drawings on whiteboard.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=2.5cm, height=4cm]{Load Screen}
+    \includegraphics[width=2.5cm, height=4cm]{HomePlantAdded}
+	\\\emph{Figure 2-3.} Splash Screen and home page after plant added.
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=2.5cm, height=4cm]{NewPlantOrEditExisting}
+    \includegraphics[width=2.5cm, height=4cm]{AllPlants}
+	\\\emph{Figure 4-5.} Editing new or existing plant page and all plants wihtin journal page.
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=2.5cm, height=4cm]{PlantClicked}
+        \includegraphics[width=2.5cm, height=4cm]{PlantHistory}
+	\\\emph{Figure 6-7.} Journal of a single plant page and deleted plants page.
+\end{figure}
+
 
 \section{Impact}
 We are hoping our application will have a positive influence on our environment and can help people take care of their gardens better. We hope users can have more flourishing gardens through the app keeping track of users plants and helping them to maintain a proper watering schedule with the least amount of plants been thrown out due to severe neglect. With the help of the Perenual API, we can provide additional information which can result in better planting and help users to provide necessary nutrition.
@@ -498,24 +527,19 @@ In essence, this application transcends the conventional boundaries of a plant d
 \balance{}
 
 \section{References} 
-\begin{enumerate}
-    \item \href{https://www.freepik.com/}{Freepik}
-    \item \href{https://perenual.com/docs/api}{Perenual API}
-    \item \href{https://dev.to/jolenechong/how-to-set-up-weekly-notifications-in-android-recurring-notifications-styling-options-and-more-1b1l}{Notification}
-    \item \href{https://medium.com/@imkuldeepsinghrai/api-calls-with-retrofit-in-android-kotlin-a-comprehensive-guide-e049e19deba9}{API Call}
-    \item \href{https://stackoverflow.com/questions/71299760/image-button-to-open-new-activity}{Image Button}
-    \item \href{https://www.youtube.com/watch?v=9LYn-OBO5qE}{Database YouTube Tutorial}
-    \item \href{https://www.youtube.com/watch?v=5gFrXGbQsc8}{API Call YouTube Tutorial}
-\end{enumerate}
-
-% BALANCE COLUMNS
-\balance{}
-
+\nocite{API2}
+\nocite{API}
+\nocite{Buttons}
+\nocite{Notifications}
+\nocite{Perenual}
+\nocite{SQLITE}
+\nocite{Freepik}
 % REFERENCES FORMAT
 % References must be the same font size as other body text.
-%%\bibliographystyle{SIGCHI-Reference-Format}
-%% \bibliographystyle{acm-sigchi-proceedings}
 
+%%\bibliographystyle{SIGCHI-Reference-Format}
+%%\bibliographystyle{acm-sigchi-proceedings}
+\printbibliography
 \end{document}
 
 
