@@ -18,7 +18,7 @@
 % ISBN
 % \isbn{978-1-4503-6708-0/20/04}
 %Conference
-\conferenceinfo{CHI'20,}{April  25--30, 2020, Honolulu, HI, USA}
+\conferenceinfo{CHI'20,}{November  16--17, 2023, Gatlinburg, TN, USA}
 %Price
 
 % Use this command to override the default ACM copyright statement
@@ -157,7 +157,7 @@
 \maketitle
 
 \begin{abstract}
-Gardener's Best Friend is a mobile app for people who want to maintain a journal tracking the well-being of their plants. Within this digital journal, gardeners can meticulously record plant-related information, including health status, watering schedules, and sunlight preferences. The primary goal of this app is to help users maintain their plants' schedule, strengthen their connection with their gardens, and enhance their gardening knowledge by capturing progress photos and documenting their plant journey in a personal journal. Gardener's Best Friend aims to enhance the interaction that gardeners have with their plants, providing users with tools to improve the overall wellness of their gardens.
+Gardener's Best Friend is an android only mobile app for people who want to maintain a journal tracking the well-being of their plants. Within this digital journal, gardeners can meticulously record plant-related information, including health status, watering schedules, and sunlight preferences. The primary goal of this app is to help users maintain their plants' schedule, strengthen their connection with their gardens, and enhance their gardening knowledge by capturing progress photos and documenting their plant journey in a personal journal. Gardener's Best Friend aims to enhance the interaction that gardeners have with their plants, providing users with tools to improve the overall wellness of their gardens.
 
 The app offers further information about each of the user's plants, such as its known preferences regarding sunlight exposure retrieved from a comprehensive database. The database should give the user some insight into their plants' specific needs, ensuring that users can optimize their gardens' care routine. The digital journal even employs a notification system, reminding the user when they need to water their plants, based on the user provided watering schedule. In addition to these features, the app utilizes user location and weather conditions to determine if watering is necessary on a particular day. Overall, Gardener's Best Friend intends to cater to the average novice and expert gardeners alike, looking to keep records of their plants while offering guidance on how to take care of them.
 
@@ -165,335 +165,316 @@ The app offers further information about each of the user's plants, such as its 
 
 
 % Author Keywords
-\keywords{\plainkeywords}
+%\keywords{\plainkeywords}
 
 
 
 \section{Introduction}
 
-This application will have a few different features available to the user. It will include a diary function where the user can make entries pertaining to their plant health. It will take advantage of either local storage or a database to store plant data. It will also require access to the camera/gallery in order to either be able to take pictures of the user's plant or if user has an existing photo, to  allow for pictures to be added to diary entries.
+This comprehensive application is designed to offer a diverse array of features, catering to the needs of plant enthusiasts and individuals keen on maintaining a detailed record of their plant care journey. A prominent function within the app is the inclusion of a diary feature, empowering users to document and track various aspects of their plant's health and growth. To ensure seamless data management, the application is equipped with the capability to leverage either local storage or a database for the secure storage of plant-related information.
 
-One of the features of the application that we are planning for is the possible inclusion of Google API. Using this service, the user would be able to take a picture of their plant, send it to Google API and get information back about their plant such as the scientific name. Another feature that we are discussing is either taking advantage of the built-in calendar or making an app internal calendar for reminders for making entries/watering. Another possible feature would require location services. Using that data, we would tie into a weather forecasting application in order to get pertinent data for plant care.
+In order to enhance the visual aspect of the diary entries, the application seamlessly integrates with the device's camera or gallery, providing users with the flexibility to either capture real-time images of their plants or incorporate existing photos into their diary entries. This visual element not only adds a personal touch to the documentation process but also serves as a valuable visual reference for the user's plant care journey.
+
+Among the innovative features currently in the planning phase is the potential integration of the Google API. This exciting addition allows users to capture an image of their plant, send it to the Google API, and receive insightful information, including the scientific name of the plant. This integration not only facilitates educational aspects of plant care but also adds a layer of sophistication to the user experience.
+
+Further enriching the functionality of the application, discussions are underway regarding the incorporation of a calendar system. Users can opt for either the built-in calendar or an internal calendar within the app. This feature is intended to serve as a robust reminder system, prompting users to make diary entries or attend to essential plant care activities such as watering, ensuring a proactive approach to plant maintenance.
+
+Recognizing the significance of environmental factors in plant care, the application explores the integration of location services. By harnessing location data, the app aims to connect with weather forecasting services, providing users with real-time and localized weather information. This feature empowers users to make informed decisions about their plant care routines based on the specific climatic conditions in their geographical area.
+
+In essence, this application goes beyond a mere plant diary, evolving into a comprehensive tool that amalgamates technological advancements and user-friendly features to create a holistic platform for plant enthusiasts, fostering a deeper connection between users and their green companions.
+
+\section{Background}
+
+
+The reader should have a general understanding of app development and familiarity with Kotlin and Java, so that the report can delve into advanced concepts of Android development. It can focus on intricate aspects of the Android platform, such as its architecture and components. The report may also touch upon the utilization of Android Studio, assuming the reader's comfort with its features and plugins. Advanced user interface (UI) design principles  can be explored, building on the reader's foundational knowledge. Additionally, discussions on frameworks and libraries like Retrofit, Dagger, and Jetpack may be introduced without providing extensive explanations. By tailoring the content to this audience, the report aims to provide insights that go beyond the basics, offering valuable information for developers already well-versed in Android app development.
+
+\section{Requirements for Application Use}
+To fully enjoy the features of Gardener's Best Friend, the user's mobile device must meet a few requirements. These requirements exist to enhance the user's overall experience, ensuring that every function implemented works seamlessly.
+
+Firstly, the user's mobile device must at least run on API level 28. This minimum API requirement guarantees compatibility with the technologies integrated into Gardener's Best Friend. If this requirement is met, users can enjoy all the features without any technical limitations. API level 28 and above provide the necessary framework for the app to perform optimally, delivering a smooth and responsive experience.
+
+Secondly, the presence of a functional camera on the mobile device is a crucial requirement for utilizing the app's journaling feature. Gardener's Best Friend relies on the device's camera, allowing users to capture and log the progress of their plants.
+
+Additionally, the mobile device must have a reliable method of storing data for the app's retrieval. This requirement guarantees that the pictures taken by the device's camera can be efficiently saved and accessed by Gardener's Best Friend. Adequate storage capacity is essential for maintaining a comprehensive record of the user's gardening journey.
+
+Lastly, a device with internet access is required to use the Perenual API. The API relies on internet access to retrieve data to present the user with information about the plants they have added to their journal.
+
+By meeting these specified requirements, users can unlock the full potential of Gardener's Best Friend, transforming their mobile devices into digital journals for growing healthy and thriving gardens.
+
+\section{Required Functions}
+
+Our application is designed to cater to the diverse and dynamic needs of plant enthusiasts, requiring a rich set of functionalities to enhance the user experience. Foremost among these features is the ability to effortlessly add and showcase photos, empowering users to visually document the journey and flourishing of their plants. The diary entry function is equally indispensable, serving as a digital journal for users to record detailed observations, growth milestones, and personalized insights, creating a narrative that evolves with each plant's unique story. To ensure optimal and mindful plant care, a fundamental requirement is the integration of a user-friendly watering schedule feature. This feature allows users to set and manage watering routines, ensuring that each plant receives the right amount of hydration at the right times.
+
+Furthermore, our application necessitates the capability to seamlessly query an external API for plant information. This integration provides users with access to a wealth of data, including detailed care guidelines, botanical facts, and insights sourced from the API. This not only empowers users with knowledge but also enriches their understanding of the plants under their care. In essence, these required functionalities collectively form the backbone of our application, creating a holistic and intuitive platform for plant enthusiasts to cultivate a deep connection with their green companions, supported by a wealth of information and features that promote both expertise and joy in the art of plant care.
 
 \section{Technology}
-Gardener's Best Friend is created in Android Studio using Kotlin. It uses an API developed by Perenual to access information from a plant database developed by the same company, which contains information such as how much sunlight a plant prefers or how much water a plant needs. We also use Canva to develop mockups and backgrounds for the app. Lastly, we use GitHub as version control for the project.
+The technological foundation of our cutting-edge plant care application represents a carefully curated ensemble of tools, each contributing distinctive features to ensure a comprehensive, feature-rich, and technologically advanced user experience. At the core of our development efforts is Android Studio, an indispensable integrated development environment (IDE) renowned within the Android app development community. Beyond its user-friendly interface, Android Studio boasts an extensive suite of features that lays a robust foundation for efficient coding, meticulous debugging, and thorough testing, guaranteeing the delivery of a high-caliber application.
 
-\section{Page Size and Columns}
-On each page your material should fit within a rectangle of 7 $\times$
-9.15 inches (18 $\times$ 23.2 cm), centered on a US Letter page (8.5
-$\times$ 11 inches), beginning 0.85 inches (1.9 cm) from the top of
-the page, with a 0.3 inches (0.85 cm) space between two 3.35 inches
-(8.4 cm) columns. Right margins should be justified, not
-ragged. Please be sure your document and PDF are US letter and not A4.
-
-\section{Typeset Text}
-The styles contained in this document have been modified from the
-default styles to reflect ACM formatting conventions. For example,
-content paragraphs like this one are formatted using the Normal style.
-
-\LaTeX\ sometimes will create overfull lines that extend into columns.
-To attempt to combat this, the \texttt{.cls} file has a command,
-\texttt{{\textbackslash}sloppy}, that essentially asks \LaTeX\ to
-prefer underfull lines with extra whitespace.  For more details on
-this, and info on how to control it more finely, check out
-{\url{http://www.economics.utoronto.ca/osborne/latex/PMAKEUP.HTM}}.
-
-\subsection{Title and Authors}
-
-Your paper's title, authors and affiliations should run across the
-full width of the page in a single column 17.8 cm (7 in.) wide.  The
-title should be in Helvetica or Arial 18-point bold.  Authors' names
-should be in Times New Roman or Times Roman 12-point bold, and
-affiliations in 12-point regular.  
-
-See \texttt{{\textbackslash}author} section of this template for
-instructions on how to format the authors. For more than three
-authors, you may have to place some address information in a footnote,
-or in a named section at the end of your paper. Names may optionally
-be placed in a single centered row instead of at the top of each
-column. Leave one 10-point line of white space below the last line of
-affiliations.
-
-\subsection{Abstract and Keywords}
-
-Every submission should begin with an abstract of about 150 words,
-followed by a set of Author Keywords and ACM Classification
-Keywords. The abstract and keywords should be placed in the left
-column of the first page under the left half of the title. The
-abstract should be a concise statement of the problem, approach, and
-conclusions of the work described. It should clearly state the paper's
-contribution to the field of HCI\@.
-
-\subsection{Normal or Body Text}
-
-Please use a 10-point Times New Roman or Times Roman font or, if this
-is unavailable, another proportional font with serifs, as close as
-possible in appearance to Times Roman 10-point. Other than Helvetica
-or Arial headings, please use sans-serif or non-proportional fonts
-only for special purposes, such as source code text.
-
-\subsection{First Page Copyright Notice}
-This template include a sample ACM copyright notice at the bottom of
-page 1, column 1.  Upon acceptance, you will be provided with the
-appropriate copyright statement and unique DOI string for publication.
-Accepted papers will be distributed in the conference
-publications. They will also be placed in the ACM Digital Library,
-where they will remain accessible to thousands of researchers and
-practitioners worldwide. See
-\url{http://acm.org/publications/policies/copyright_policy} for the
-ACM's copyright and permissions policy.
-
-\subsection{Subsequent Pages}
-
-On pages beyond the first, start at the top of the page and continue
-in double-column format.  The two columns on the last page should be
-of equal length.
-
-%% \begin{figure}
-%% \centering
-%%   \includegraphics[width=0.9\columnwidth]{figures/sigchi-logo}
-%%   \caption{Insert a caption below each figure. Do not alter the
-%%     Caption style.  One-line captions should be centered; multi-line
-%%     should be justified. }~\label{fig:figure1}
-%% \end{figure}
-
-\subsection{References and Citations}
-
-Use a numbered list of references at the end of the article, ordered
-alphabetically by last name of first author, and referenced by numbers
-in
-brackets.
-Your references should be published materials accessible to the
-public. Internal technical reports may be cited only if they are
-easily accessible (i.e., you provide the address for obtaining the
-report within your citation) and may be obtained by any reader for a
-nominal fee. Proprietary information may not be cited. Private
-communications should be acknowledged in the main text, not referenced
-(e.g., ``[Borriello, personal communication]'').
-
-References should be in ACM citation format:
-\url{http://acm.org/publications/submissions/latex_style}. This
-includes citations to internet
-resources
-according to ACM format, although it is often appropriate to include
-URLs directly in the text, as above.
+In the realm of programming languages, our unwavering commitment to excellence led us to embrace Kotlin, a language endorsed by Google for Android development. Beyond its syntactical elegance, Kotlin introduces a modern and concise coding style that significantly enhances code readability and reduces boilerplate code. The language's seamless interoperability with existing Java code not only facilitates a smooth integration process but also positions our application for long-term scalability and maintainability, ensuring the adaptability of our codebase to evolving needs.
 
 
-% Use a numbered list of references at the end of the article, ordered
-% alphabetically by first author, and referenced by numbers in
-% brackets~\cite{ethics, Klemmer:2002:WSC:503376.503378,
-%   Mather:2000:MUT, Zellweger:2001:FAO:504216.504224}. For papers from
-% conference proceedings, include the title of the paper and an
-% abbreviated name of the conference (e.g., for Interact 2003
-% proceedings, use \textit{Proc. Interact 2003}). Do not include the
-% location of the conference or the exact date; do include the page
-% numbers if available. See the examples of citations at the end of this
-% document. Within this template file, use the \texttt{References} style
-% for the text of your citation.
+For the crucial task of local data storage, our choice is SQLite, a venerable relational database management system. Acknowledged for its lightweight nature and efficiency in managing structured data, SQLite emerges as an optimal choice for our mobile application. Its reliability in performance ensures swift and secure data storage and retrieval, contributing to a seamless user experience without compromising on the integrity of stored data.
 
-% Your references should be published materials accessible to the
-% public.  Internal technical reports may be cited only if they are
-% easily accessible (i.e., you provide the address for obtaining the
-% report within your citation) and may be obtained by any reader for a
-% nominal fee.  Proprietary information may not be cited. Private
-% communications should be acknowledged in the main text, not referenced
-% (e.g., ``[Robertson, personal communication]'').
+In our relentless pursuit of a dynamic and enriched user experience, the integration of the Perenual API represents a pivotal leap forward. This collaboration elevates our application beyond the confines of a conventional plant diary. Users can now access real-time, in-depth information about their plants, including intricate scientific details. The Perenual API transforms our application into a dynamic hub of plant-related knowledge, positioning it at the forefront of technological innovation in the domain of plant care applications. This dynamic integration not only caters to the informational needs of users but also infuses a layer of sophistication into their plant care journey.
 
-\begin{table}
-  \centering
-  \begin{tabular}{l r r r}
-    % \toprule
-    & & \multicolumn{2}{c}{\small{\textbf{Test Conditions}}} \\
-    \cmidrule(r){3-4}
-    {\small\textit{Name}}
-    & {\small \textit{First}}
-      & {\small \textit{Second}}
-    & {\small \textit{Final}} \\
-    \midrule
-    Marsden & 223.0 & 44 & 432,321 \\
-    Nass & 22.2 & 16 & 234,333 \\
-    Borriello & 22.9 & 11 & 93,123 \\
-    Karat & 34.9 & 2200 & 103,322 \\
-    % \bottomrule
-  \end{tabular}
-  \caption{Table captions should be placed below the table. We
-    recommend table lines be 1 point, 25\% black. Minimize use of
-    table grid lines.}~\label{tab:table1}
+To orchestrate seamless collaboration and foster an agile development process, GitHub takes center stage as our version control and collaboration platform. GitHub's robust suite of tools encompasses version control, issue tracking, and code review features, fostering a collaborative and transparent environment within our development team. This strategic choice not only underscores our commitment to delivering a product but also emphasizes our dedication to continuous improvement and innovation in the realm of plant care applications.
+
+In essence, our extensive technological stack, comprising Android Studio, Kotlin, SQLite, the Perenual API, and GitHub, unfolds as a meticulously selected array of tools. This strategic amalgamation, enriched with robust features, not only empowers our development team but also ensures that our end-users embark on a technologically advanced, seamless, and gratifying plant care journey. In setting new standards for mobile applications catering to plant enthusiasts, we aspire to redefine the landscape with an application that transcends expectations, offering a harmonious blend of functionality and innovation.
+
+%\LaTeX\ sometimes will create overfull lines that extend into columns.
+%To attempt to combat this, the \texttt{.cls} file has a command,
+%\texttt{{\textbackslash}sloppy}, that essentially asks \LaTeX\ to
+%prefer underfull lines with extra whitespace.  For more details on
+%this, and info on how to control it more finely, check out
+%{\url{http://www.economics.utoronto.ca/osborne/latex/PMAKEUP.HTM}}.
+
+\section{Mockups}
+\includegraphics[width=2.5cm, height=4cm]{OldMockup}
+\includegraphics[width=2.5cm, height=4cm]{Load Screen}
+\includegraphics[width=2.5cm, height=4cm]{HomePlantAdded}
+\includegraphics[width=2.5cm, height=4cm]{NewPlantOrEditExisting}
+\includegraphics[width=2.5cm, height=4cm]{AllPlants}
+\includegraphics[width=2.5cm, height=4cm]{PlantClicked}
+\includegraphics[width=2.5cm, height=4cm]{PlantHistory}
+
+\section{Impact}
+We are hoping our application will have a positive influence on our environment and can help people take care of their gardens better. We hope users can have more flourishing gardens through the app keeping track of users plants and helping them to maintain a proper watering schedule with the least amount of plants been thrown out due to severe neglect. With the help of the Perenual API, we can provide additional information which can result in better planting and help users to provide necessary nutrition.
+
+\section{Key Terminology}
+The Perenual API not only introduces the users to additional insights about their plants, it also introduces them to a specialized agricultural vocabulary. To enhance the comprehension of the information provided by the API, it is highly beneficial for users to familiarize themselves with any potential new terms. The data retrieved by the API contains four distinct cycles that users might encounter. 
+
+The first term is perennial. Perennial defines plants that persist for more than two years, typically flowering and producing seeds repeatedly during their life cycle. These plants often withstand seasonal changes, regenerating and blooming year after year, contributing to a longer and more sustained presence in a garden or natural environment. 
+
+ The second term is annual. Annual refers to plants that complete their entire life cycle within a single growing season. These plants germinate, grow, flower, produce seeds, and die off within a year. Unlike perennials, annuals are known for having a short life cycle. A clear understanding of annuals aids users in strategizing and maintaining a garden that showcases a wide range of changing blooms throughout the year.
+
+The next term is biennial. Biennial refers to plants that take two years to complete their life cycle. In the first year, they grow leaves and stems. In the second year, they flower, produce seeds, and finish their life cycle before dying off. The seeds biennial plants produce may be the start of new plants, but there is no guarantee.
+
+Lastly, the user may encounter the term biannual. Biannual refers to plants that complete their life cycle every two years. This term is less common than the previously discussed ones, and it signifies a unique growth pattern where the plant goes through all stages of its life cycle biennially. Biannual plants might germinate, grow, flower, produce seeds, and complete their life cycle every two years.
+
+Understanding the distinctions among perennial, annual, biennial, and biannual plants is crucial for users harnessing the potential of the Perenual API. By familiarizing themselves with this specialized agricultural vocabulary, users are able to enhance their experience with the app.
+
+\section{Audience}
+The reader should have an understanding of Gardener's Best Friend's target audience so that the report can best understand the app and why it was designed. The app is aimed towards the average person who wish to take care of a garden of plants, but may not be able to properly track and care for each and every plant to the best of their ability. Gardener's Best Friend allows the audience to improve their plant-taking abilities by allowing the user to keep a diary of their plant by writing any actions the user performed that day or any inconsistencies that the user noticed. The app also provides the user information about each plant that allows each user to make adjustments to their usual plant-taking activities that can benefit each plant.
+
+
+\section{Use Cases}
+These are the use cases for the app. The table containing each ID can be found at Table \ref{tab:use_cases}.
+\begin{table}[]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+         Name & Primary Actor \\
+         \hline
+         \hline
+         1 & Open Add Plant Page\\
+         \hline
+         2 & Select Plant Image Using Camera \\
+         \hline
+         3 & Select Plant Image Using Existing Photo \\
+         \hline
+         4 & Add/Edit Weekly Reminders \\
+         \hline
+         5 & Add Journal Entry Date \\
+         \hline
+         6 & Add Journal Entry \\
+         \hline
+         7 & Confirm New Journal Entry \\
+         \hline
+         8 & View Home Screen \\
+         \hline
+         9 & View Current Plants \\
+         \hline
+         10 & View Specific Plant \\
+         \hline
+         11 & Edit Plant/Add New Entry \\
+         \hline
+         12 & View Plant History \\
+         \hline
+    \end{tabular}
+    \caption{Plant Use Case IDs}
+    \label{tab:use_cases}
 \end{table}
 
-\section{Sections}
 
-The heading of a section should be in Helvetica or Arial 9-point bold,
-all in capitals. Sections should \textit{not} be numbered.
+%%\begin{itemize}
+%%    \item Use Case ID: 1
+%%    \item Actor: User
+%%    \item Description: User wants to add a plant to the journal
+%%    \item Precondition:
+%%\begin{enumerate}
+%%    \item The user must be at the home screen
+%%\end{enumerate}
+%%    \item Scenario: The user presses the "Add Plant" button, which is a leaf with a plus next to it
+%%    \item Result: The system opens the add plant page
+%%\end{itemize}
 
-\subsection{Subsections}
+Use Case ID: 1
+Actor: User \\
+Description: User wants to add a plant to the journal \\
+Precondition: The user must be at the Home screen \\
+Scenario: The user presses the "Add Plant" button, which is a leaf with a plus next to it \\
+Result: The system opens the add plant page \\
+\\
 
-Headings of subsections should be in Helvetica or Arial 9-point bold
-with initial letters capitalized.  For sub-sections and
-sub-subsections, a word like \emph{the} or \emph{of} is not
-capitalized unless it is the first word of the heading.
+Use Case ID: 2 \\
+Actor: User \\
+Description: User wants to add an image of their plant using the camera \\
+Preconditions: \begin{itemize}
+    \item The user must have given the app permission to use the camera
+    \item The user must be on the add plant or edit plant screens
+\end{itemize}
+Scenario: \begin{enumerate}
+    \item The user presses the large image frame at the top of the screen below the "Confirm" button
+    \item The user presses the button labeled "Use Camera"
+    \item The user takes a picture of their plant using the camera
+\end{enumerate}
+%%The user presses the large image frame at the top of the screen below the "Confirm" button. The user then presses the button labeled "Use Camera". The user then takes a picture of their plant using the camera. \\
+Result: The picture taken by the user is displayed on the image frame that the user pressed \\
+\\
 
-\subsubsection{Sub-subsections}
+Use Case ID: 3 \\
+Actor: User \\
+Description: Use wants to add an image of their plant using a existing photo in their gallery \\
+Preconditions: \begin{itemize}
+    \item The user must have given the app permission to view their images
+    \item The user must be on the add plant or edit plant screens
+\end{itemize}
+Scenario: \begin{enumerate}
+    \item The user presses the large image frame at the top of the screen below the "Confirm" button
+    \item The user persses the button labeled "Use Gallery"
+    \item The user selects an image of their plant from the photo gallery
+\end{enumerate}
+Result: The picture selected by the user is displayed on the image frame that the user pressed \\
+\\
 
-Headings for sub-subsections should be in Helvetica or Arial 9-point
-italic with initial letters capitalized.  Standard
-\texttt{{\textbackslash}section}, \texttt{{\textbackslash}subsection},
-and \texttt{{\textbackslash}subsubsection} commands will work fine in
-this template.
+Use Case ID: 4 \\
+Actor: User \\
+Description: The user wants to add or edit the weekly reminders of their plant \\
+Precondition: The user must be on the add plant or edit plant screens \\
+Scenario: \begin{enumerate}
+    \item The user presses the field labeled "Reminders (Optional)"
+    \item The user selects the days they want to get reminders for their plant
+\end{enumerate}
+Result: The user's new reminders are selected \\
+\\
 
-\section{Figures/Captions}
+Use Case ID: 5 \\
+Actor: User \\
+Description: The user wants to add a date to their plant's journal entry \\
+Precondition: The user must be on the add plant or edit plant screens \\
+Scenario: \begin{enumerate}
+    \item The user selects the field above the Journal Entry field, which contains the required date format
+    \item The user enters the date of their journal entry in the specified date format
+\end{enumerate}
+Result: The user's journal date is entered \\
+\\
 
-Place figures and tables at the top or bottom of the appropriate
-column or columns, on the same page as the relevant text (see
-Figure~\ref{fig:figure1}). A figure or table may extend across both
-columns to a maximum width of 17.78 cm (7 in.).
+Use Case ID: 6 \\
+Actor: User \\
+Description: The user wants to enter a journal entry for their plant \\
+Precondition: The user must be on the add plant or edit plant screens \\
+Scenario: \begin{enumerate}
+    \item The user selects the large field labeled "Write your diary entry..."
+    \item The user enters the journal entry for the plant
+\end{enumerate}
+Result: The user's journal entry is entered \\
+\\
 
-%% \begin{figure*}
-%%   \centering
-%%   \includegraphics[width=1.75\columnwidth]{figures/map}
-%%   \caption{In this image, the map maximizes use of space. You can make
-%%     figures as wide as you need, up to a maximum of the full width of
-%%     both columns. Note that \LaTeX\ tends to render large figures on a
-%%     dedicated page. Image: \ccbynd~ayman on
-%%     Flickr.}~\label{fig:figure2}
-%% \end{figure*}
+Use Case ID: 7 \\
+Actor: User \\
+Description: The user wants to confirm their new plant or their new journal entry \\
+Preconditions: \begin{itemize}
+    \item The user must be on the add plant or edit plant screens 
+    \item The user must have provided an image and entered a journal entry date and a journal entry
+\end{itemize}
+Scenario: The user presses the button labeled "Confirm" \\
+Result: The user's new plant is added or their new journal entry is entered and the user is at the Home screen \\
+\\
 
-Captions should be Times New Roman or Times Roman 9-point bold.  They
-should be numbered (e.g., ``Table~\ref{tab:table1}'' or
-``Figure~\ref{fig:figure1}''), centered (if one line) otherwise justified, and placed beneath the figure
-or table.  Please note that the words ``Figure'' and ``Table'' should
-be spelled out (e.g., ``Figure'' rather than ``Fig.'') wherever they
-occur. Figures, like Figure~\ref{fig:figure2}, may span columns and
-all figures should also include alt text for improved accessibility.
-Papers and notes may use color figures, which are included in the page
-limit; the figures must be usable when printed in black-and-white in
-the proceedings.
+Use Case ID: 8 \\
+Actor: User \\
+Description: The user wants to go to the home screen \\
+Precondition: The user must be on the My Diary or History screens \\
+Scenario: The user presses the left menu button at the bottom of the screen, which is a globe with leaves \\
+Result: The user is at the home screen
 
-The paper may be accompanied by a short video figure (we recommend staying within five
-minutes in length). However, the paper should stand on its own without
-the video figure, as the video may not be available to everyone who
-reads the paper.  
+Use Case ID: 9 \\
+Actor: User \\
+Description: The user wants to view their current plants by accessing the My Diary screen \\
+Precondition: The user must be on the Home or History screens \\
+Scenario: The user presses the middle menu button at the bottom of the screen, which is a diary with a pencil \\
+Result: The user is on the My Diary screen and all added plants are shown \\
+\\
 
-\subsection{Inserting Images}
-When possible, include a vector formatted graphic (i.e. PDF or EPS).
-When including bitmaps,  use an image editing tool to resize the image
-at the appropriate printing resolution (usually 300 dpi).
+Use Case ID: 10 \\
+Actor: User \\
+Description: The user wants to view a specific plant's page
+Preconditions: \begin{itemize}
+    \item The user must be on the My Diary screen
+    \item The user must have added a plant
+\end{itemize}
+Scenario: The user presses the plant entry containing the plant they want to view \\
+Result: The user is viewing the selected plant's page \\
+\\
 
-\section{Quotations}
-Quotations may be italicized when \textit{``placed inline''}.
+Use Case ID: 11 \\
+Actor: User \\
+Description: The user wants to edit their plant's reminders or add a new diary entry \\
+Precondition: The user must be on the page of the plant they want to edit or add a new diary entry for \\
+Scenario: The user presses the pencil icon at the bottom right of the plant's image \\
+Result: The user is on the edit plant screen \\
+\\
 
-\begin{quote}
-Longer quotes, when placed in their own paragraph, need not be
-italicized or in quotation marks when indented.  
-\end{quote}
+Use Case ID: 12 \\
+Actor: User \\
+Description: The user wants to view a history of their deleted plants \\
+Precondition: The use must be on the Home or My Diary screens \\
+Scenario: The user presses the bottom right menu button at the bottom of the screen, which is an hourglass timer containing a substance that looks like the Earth \\
+Result: The user is at the History screen \\
 
-\section{Language, Style, and Content}
+\section{Challenges}
+In the course of our project development, we encountered a myriad of challenges that required diligent problem-solving and creative solutions. One notable hurdle pertained to obtaining the necessary permissions for various functionalities, including camera usage, gallery access, and calendar integration. Navigating the intricate landscape of permissions proved to be a multifaceted task, demanding careful consideration of user privacy and security concerns.
 
-The written and spoken language of SIGCHI is English. Spelling and
-punctuation may use any dialect of English (e.g., British, Canadian,
-US, etc.) provided this is done consis- tently. Hyphenation is
-optional. To ensure suitability for an international audience, please
-pay attention to the following:
+Another noteworthy challenge we confronted revolved around the seamless implementation of reminders within our application. Ensuring that reminders occurred reliably and at the appropriate times presented a complex puzzle that demanded meticulous attention to detail and rigorous testing. This aspect of our development process underscored the importance of creating a user experience that not only met but exceeded expectations.
 
+Additionally, our journey in the development realm brought us face to face with compatibility issues between SQLite and Java database. It became apparent that these two database systems posed a compatibility dilemma, requiring a thoughtful evaluation of our database architecture. Ultimately, We decided to cut Java database and use SQLite. The intricacies involved in resolving this issue highlighted the nuanced nature of database management and underscored the significance of choosing the right tools for the job.
+
+In summary, our project's development path was marked by challenges that spanned permissions management, reminder functionality, and database compatibility. Each obstacle presented an opportunity for growth, learning, and ultimately, the enhancement of our application's overall quality and user experience.
+
+\section{Results}
+To wrap this application up, the bullets below are what we have fully working.
 \begin{itemize}
-\item Write in a straightforward style.
-\item Try to avoid long or complex sentence structures.
-\item Use common and basic vocabulary (e.g., use the word ``unusual'' rather than the word ``arcane''.
-\item Briefly define or explain all technical terms that may be
-  unfamiliar to readers.
-\item Explain all acronyms the first time they are used in your
-  text---e.g., ``Digital Signal Processing (DSP)''.
-\item Explain local references (e.g., not everyone knows all city
-  names in a particular country).
-\item Explain ``insider'' comments. Ensure that your whole audience
-  understands any reference whose meaning you do not describe (e.g.,
-  do not assume that everyone has used a Macintosh or a particular
-  application).
-\item Explain colloquial language and puns. Understanding phrases like
-  ``red herring'' may require a local knowledge of English.  Humor and
-  irony are difficult to translate.
-\item Use unambiguous forms for culturally localized concepts, such as
-  times, dates, currencies, and numbers (e.g., ``1--5--97'' or
-  ``5/1/97'' may mean 5 January or 1 May, and ``seven o'clock'' may
-  mean 7:00 am or 19:00). For currencies, indicate equivalences:
-  ``Participants were paid {\fontfamily{txr}\selectfont \textwon}
-  25,000, or roughly US \$22.''
-\item Be careful with the use of gender-specific pronouns (he, she)
-  and other gendered words (chairman, manpower, man-months). Use
-  inclusive language that is gender-neutral (e.g., she or he, they,
-  s/he, chair, staff, staff-hours, person-years). See the
-  \textit{Guidelines for Bias-Free Writing} for further advice and
-  examples regarding gender and other personal
-  attributes~. Be particularly aware of
-  considerations around writing about people with disabilities.
-\item If possible, use the full (extended) alphabetic character set
-  for names of persons, institutions, and places (e.g.,
-  Gr{\o}nb{\ae}k, Lafreni\'ere, S\'anchez, Nguy{\~{\^{e}}}n,
-  Universit{\"a}t, Wei{\ss}enbach, Z{\"u}llighoven, \r{A}rhus, etc.).
-  These characters are already included in most versions and variants
-  of Times, Helvetica, and Arial fonts.
+    \item Journal
+    \item Photo records
+    \item Notification (Reminders for watering schedule)
+    \item API for additional plant information
+    \item Database
 \end{itemize}
 
-\section{Accessibility}
-The Executive Council of SIGCHI has committed to making SIGCHI
-conferences more inclusive for researchers, practitioners, and
-educators with disabilities. As a part of this goal, the all authors
-are asked to work on improving the accessibility of their
-submissions. Specifically, we encourage authors to carry out the
-following five steps:
-\begin{enumerate}
-\item Add alternative text to all figures
-\item Mark table headings
-\item Add tags to the PDF
-\item Verify the default language
-\item Set the tab order to ``Use Document Structure''
-\end{enumerate}
-For more information and links to instructions and resources, please
-see: \url{http://chi2016.acm.org/accessibility}.  The
-\texttt{{\textbackslash}hyperref} package allows you to create well tagged PDF files,
-please see the preamble of this template for an example.
+\section{Future Work}
 
-\section{Page Numbering, Headers and Footers}
-Your final submission should not contain footer or header information
-at the top or bottom of each page. Specifically, your final submission
-should not include page numbers. Initial submissions may include page
-numbers, but these must be removed for camera-ready. Page numbers will
-be added to the PDF when the proceedings are assembled.
+In envisioning the future development of our plant care application, a compelling avenue for expansion lies in the incorporation of location-based services to enhance plant care recommendations. By integrating location services, we aim to seamlessly tie into weather forecasting applications, providing users with real-time and localized weather information pertinent to their geographical location. This innovative feature would empower users to make informed decisions about their plant care routines, aligning them with the specific climatic conditions influencing their plants.
 
-\section{Producing and Testing PDF Files}
+The integration of location services could enable the application to dynamically adapt its recommendations based on factors such as temperature, humidity, and sunlight exposure unique to each user's region. For instance, users in colder climates might receive tailored suggestions during winter months, ensuring their plants receive adequate protection and care against frost. Conversely, users in warmer climates may receive guidance on managing hydration levels during hot summer days.
 
-We recommend that you produce a PDF version of your submission well
-before the final deadline.  Your PDF file must be ACM DL
-Compliant. The requirements for an ACM Compliant PDF are available at:
-{\url{http://www.scomminc.com/pp/acmsig/ACM-DL-pdfs-requirements.htm}}.
+Furthermore, this feature could facilitate the automatic adjustment of watering schedules and other care routines, creating a personalized and responsive experience. By tapping into real-time weather data, the application could provide timely alerts or notifications, prompting users to take proactive measures in response to sudden weather changes.
 
-Test your PDF file by viewing or printing it with the same software we
-will use when we receive it, Adobe Acrobat Reader Version 10. This is
-widely available at no cost. Note that most
-reviewers will use a North American/European version of Acrobat
-reader, so please check your PDF accordingly.
+Incorporating location-based weather services not only elevates the sophistication of our plant care application but also aligns with our commitment to delivering a holistic and user-centric experience. As we look toward the future, this expansion into dynamic, location-aware plant care features holds the potential to redefine the way users interact with and care for their plants, fostering a more intuitive and adaptive connection between technology and nature.
 
 \section{Conclusion}
 
-It is important that you write for the SIGCHI audience. Please read
-previous years' proceedings to understand the writing style and
-conventions that successful authors have used. It is particularly
-important that you state clearly what you have done, not merely what
-you plan to do, and explain how your work is different from previously
-published work, i.e., the unique contribution that your work makes to
-the field. Please consider what the reader will learn from your
-submission, and how they will find your work useful. If you write with
-these questions in mind, your work is more likely to be successful,
-both in being accepted into the conference, and in influencing the
-work of our field.
 
-\section{Acknowledgments}
+In conclusion, this application stands as a sophisticated and user-centric solution for plant enthusiasts seeking a comprehensive tool to enhance their plant care experience. The diverse range of features, from the intuitive diary function to the seamless integration of visual elements through camera and gallery access, demonstrates a commitment to providing users with a personalized and enriching journey in plant maintenance.
 
-Sample text: We thank all the volunteers, and all publications support
-and staff, who wrote and provided helpful comments on previous
-versions of this document. Authors 1, 2, and 3 gratefully acknowledge
-the grant from NSF (\#1234--2012--ABC). \textit{This whole paragraph is
-  just an example.}
+The incorporation of the API introduces a layer of intelligence, offering users valuable insights into the scientific details of their plants. This not only educates users but elevates the app to a more dynamic and informative platform.
+
+The calendar system,  leveraging the built-in calendar, reflects a thoughtful approach to user engagement. This feature ensures that users stay proactive in their plant care routines, with timely reminders for diary entries and essential activities like watering.
+
+The forward-looking integration of location services adds a practical dimension, connecting users with real-time weather forecasts based on their geographical location. This not only underscores the app's commitment to informed decision-making but also reinforces its adaptability to the specific environmental conditions influencing plant health.
+
+In essence, this application transcends the conventional boundaries of a plant diary, evolving into a multifaceted companion for plant enthusiasts. By amalgamating technological advancements, educational features, and user-friendly design, it not only meets but exceeds the expectations of users, fostering a deeper and more meaningful connection between individuals and their green companions.
+
+
 
 % Balancing columns in a ref list is a bit of a pain because you
 % either use a hack like flushend or balance, or manually insert
@@ -516,23 +497,16 @@ the grant from NSF (\#1234--2012--ABC). \textit{This whole paragraph is
 %
 \balance{}
 
-\section{References Format}
-Your references should be published materials accessible to the
-public. Internal technical reports may be cited only if they are
-easily accessible and may be obtained by any reader for a nominal
-fee. Proprietary information may not be cited. Private communications
-should be acknowledged in the main text, not referenced (e.g.,
-[Golovchinsky, personal communication]). References must be the same
-font size as other body text. References should be in alphabetical
-order by last name of first author. Use a numbered list of references
-at the end of the article, ordered alphabetically by last name of
-first author, and referenced by numbers in brackets. For papers from
-conference proceedings, include the title of the paper and the name of
-the conference. Do not include the location of the conference or the
-exact date; do include the page numbers if available. 
-
-Citing something\cite{unrealweb}. Citing something else.\cite{smit54}
-
+\section{References} 
+\begin{enumerate}
+    \item \href{https://www.freepik.com/}{Freepik}
+    \item \href{https://perenual.com/docs/api}{Perenual API}
+    \item \href{https://dev.to/jolenechong/how-to-set-up-weekly-notifications-in-android-recurring-notifications-styling-options-and-more-1b1l}{Notification}
+    \item \href{https://medium.com/@imkuldeepsinghrai/api-calls-with-retrofit-in-android-kotlin-a-comprehensive-guide-e049e19deba9}{API Call}
+    \item \href{https://stackoverflow.com/questions/71299760/image-button-to-open-new-activity}{Image Button}
+    \item \href{https://www.youtube.com/watch?v=9LYn-OBO5qE}{Database YouTube Tutorial}
+    \item \href{https://www.youtube.com/watch?v=5gFrXGbQsc8}{API Call YouTube Tutorial}
+\end{enumerate}
 
 % BALANCE COLUMNS
 \balance{}
@@ -542,7 +516,6 @@ Citing something\cite{unrealweb}. Citing something else.\cite{smit54}
 %%\bibliographystyle{SIGCHI-Reference-Format}
 %% \bibliographystyle{acm-sigchi-proceedings}
 
-\bibliographystyle{plain}
-\bibliography{bibliography}
-
 \end{document}
+
+
